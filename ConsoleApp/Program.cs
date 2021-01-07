@@ -9,7 +9,7 @@ namespace ConsoleApp
         {
             var rsa = new RsaAlgorithm();
 
-
+            Console.WriteLine(rsa.GetArgumentsTempFunc());
         }
     }
 }

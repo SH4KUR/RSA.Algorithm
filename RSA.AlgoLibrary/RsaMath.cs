@@ -5,7 +5,7 @@ using System.Text;
 namespace RSA.AlgoLibrary
 {
     public static class RsaMath
-    {
+    {   
         public static int GeneratePrimeNumber(int maxPrimeNumber)
         {
             var random = new Random();
@@ -32,6 +32,12 @@ namespace RSA.AlgoLibrary
             }
 
             return result;
+        }
+
+        public static int CalculateEulersTotientFunction(int p, int q)
+        {
+            var totient = (p - 1) * (q - 1);
+            return totient;
         }
     }
 }
