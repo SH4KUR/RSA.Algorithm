@@ -11,6 +11,7 @@ namespace RSA.AlgoLibrary
         private int _n;         // modulus for the public key and the private keys
         private int _totient;   // Euler's totient function
         private int _e;         // public key exponent
+        private int _d;         // private key exponent
 
         public RsaAlgorithm()
         {
@@ -18,10 +19,11 @@ namespace RSA.AlgoLibrary
             SetN();
             CalculateTotient();
             ChooseE();
+            CalculateD();
         }
 
         // TODO: Remove function
-        public string GetArgumentsTempFunc() => $"p: {_p}, q: {_q}, n: {_n}, totient: {_totient}, e: {_e}";
+        public string GetArgumentsTempFunc() => $"p: {_p}, q: {_q}, n: {_n}, totient: {_totient}, e: {_e}, d: {_d}";
 
         private void GeneratePQ()
         {
@@ -45,6 +47,11 @@ namespace RSA.AlgoLibrary
         private void ChooseE()
         {
             _e = RsaMath.ChoosePublicKeyExponent(_totient);
+        }
+
+        private void CalculateD()
+        {
+            _d = RsaMath.CalculatePrivateKeyExponent(_e, _totient);
         }
     }
 }

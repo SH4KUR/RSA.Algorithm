@@ -89,5 +89,17 @@ namespace RSA.AlgoLibrary
 
             return e;
         }
+
+        public static int CalculatePrivateKeyExponent(int e, int totient)
+        {
+            var d = 1;
+
+            while ((d * e) % totient != 1)
+            {
+                d++;
+            }
+
+            return d;
+        }
     }
 }
