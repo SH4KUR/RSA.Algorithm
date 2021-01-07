@@ -10,12 +10,14 @@ namespace RSA.AlgoLibrary
         private int _q;         // prime number
         private int _n;         // modulus for the public key and the private keys
         private int _totient;   // Euler's totient function
+        private int _e;         // public key exponent
 
         public RsaAlgorithm()
         {
             GeneratePQ();
             SetN();
             CalculateTotient();
+            ChooseE();
         }
 
         // TODO: Remove function
@@ -35,6 +37,11 @@ namespace RSA.AlgoLibrary
         private void CalculateTotient()
         {
             _totient = RsaMath.CalculateEulersTotientFunction(_p, _q);
+        }
+
+        private void ChooseE()
+        {
+            _e = RsaMath.ChoosePublicKeyExponent(_totient);
         }
     }
 }

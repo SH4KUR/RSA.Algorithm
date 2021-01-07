@@ -39,5 +39,14 @@ namespace RSA.AlgoLibrary
             var totient = (p - 1) * (q - 1);
             return totient;
         }
+
+        public static int ChoosePublicKeyExponent(int totient)
+        {
+            var e = 0;
+
+            // TODO: Implement
+
+            return e;
+        }
     }
 }
