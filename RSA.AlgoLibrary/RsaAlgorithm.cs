@@ -21,7 +21,7 @@ namespace RSA.AlgoLibrary
         }
 
         // TODO: Remove function
-        public string GetArgumentsTempFunc() => $"p: {_p}, q: {_q}, n: {_n}, totient: {_totient}";
+        public string GetArgumentsTempFunc() => $"p: {_p}, q: {_q}, n: {_n}, totient: {_totient}, e: {_e}";
 
         private void GeneratePQ()
         {
