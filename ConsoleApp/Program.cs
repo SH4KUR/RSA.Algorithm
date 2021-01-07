@@ -1,4 +1,5 @@
 ﻿using System;
+using RSA.AlgoLibrary;
 
 namespace ConsoleApp
 {
@@ -6,7 +7,9 @@ namespace ConsoleApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var rsa = new RsaAlgorithm();
+
+
         }
     }
 }
