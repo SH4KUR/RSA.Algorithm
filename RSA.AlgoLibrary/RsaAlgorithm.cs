@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace RSA.AlgoLibrary
+﻿namespace RSA.AlgoLibrary
 {
     public class RsaAlgorithm
     {
@@ -52,6 +50,18 @@ namespace RSA.AlgoLibrary
         private void CalculateD()
         {
             _d = RsaMath.CalculatePrivateKeyExponent(_e, _totient);
+        }
+
+        public int[] GetPrivateKeyDN()
+        {
+            var privateKey = new[] {_d, _n};
+            return privateKey;
+        }
+
+        public int[] GetPublicKeyEN()
+        {
+            var publicKey = new[] { _e, _n };
+            return publicKey;
         }
     }
 }
