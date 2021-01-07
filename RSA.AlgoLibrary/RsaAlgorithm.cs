@@ -25,8 +25,11 @@ namespace RSA.AlgoLibrary
 
         private void GeneratePQ()
         {
-            _p = RsaMath.GeneratePrimeNumber(MAX_PRIME_NUMBER);
-            _q = RsaMath.GeneratePrimeNumber(MAX_PRIME_NUMBER);
+            do
+            {
+                _p = RsaMath.GeneratePrimeNumber(MAX_PRIME_NUMBER);
+                _q = RsaMath.GeneratePrimeNumber(MAX_PRIME_NUMBER);
+            } while (_p == _q);
         }
 
         private void SetN()
