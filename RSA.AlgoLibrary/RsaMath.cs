@@ -7,24 +7,24 @@ namespace RSA.AlgoLibrary
 {
     public static class RsaMath
     {   
-        public static int GeneratePrimeNumber(int maxPrimeNumber)
+        public static uint GeneratePrimeNumber(int maxPrimeNumber)
         {
-            var random = new Random();
-            int number;
+            Random random = new Random();
+            uint number;
 
             do
             {
-                number = random.Next(2, maxPrimeNumber);
+                number = (uint) random.Next(2, maxPrimeNumber);
             } while (!IsPrimeNumber(number));
 
             return number;
         }
 
-        private static bool IsPrimeNumber(int number)
+        private static bool IsPrimeNumber(uint number)
         {
-            var result = true;
+            bool result = true;
 
-            for (var i = 2; i < number; i++)
+            for (uint i = 2; i < number; i++)
             {
                 if (number % i == 0)
                 {
@@ -35,26 +35,26 @@ namespace RSA.AlgoLibrary
             return result;
         }
 
-        public static int CalculateEulersTotientFunction(int p, int q)
+        public static uint CalculateEulersTotientFunction(uint p, uint q)
         {
-            var totient = (p - 1) * (q - 1);
+            uint totient = (p - 1) * (q - 1);
             return totient;
         }
 
-        public static int ChoosePublicKeyExponent(int totient)
+        public static uint ChoosePublicKeyExponent(uint totient)
         {
-            var possiblePublicKeyExponentList = GetAllPossiblePublicKeyExponentList(totient);
-            var e = GetRandomPossiblePublicKeyExponent(possiblePublicKeyExponentList);
+            List<uint> possiblePublicKeyExponentList = GetAllPossiblePublicKeyExponentList(totient);
+            uint e = GetRandomPossiblePublicKeyExponent(possiblePublicKeyExponentList);
 
             return e;
         }
 
-        private static List<int> GetAllPossiblePublicKeyExponentList(int totient)
+        private static List<uint> GetAllPossiblePublicKeyExponentList(uint totient)
         {
-            var divisorsOfTotientList = GetAllDivisorsList(totient);
-            var possiblePublicKeyExponentList = new List<int>();
+            List<uint> divisorsOfTotientList = GetAllDivisorsList(totient);
+            List<uint> possiblePublicKeyExponentList = new List<uint>();
 
-            for (var i = 2; i < totient; i++)
+            for (uint i = 2; i < totient; i++)
             {
                 if (IsPrimeNumber(i) && !divisorsOfTotientList.Contains(i))
                 {
@@ -65,11 +65,11 @@ namespace RSA.AlgoLibrary
             return possiblePublicKeyExponentList;
         }
 
-        private static List<int> GetAllDivisorsList(int number)
+        private static List<uint> GetAllDivisorsList(uint number)
         {
-            var divisorsList = new List<int>();
+            List<uint> divisorsList = new List<uint>();
 
-            for (var i = 2; i < number; i++)
+            for (uint i = 2; i < number; i++)
             {
                 if (number % i == 0)
                 {
@@ -80,19 +80,19 @@ namespace RSA.AlgoLibrary
             return divisorsList;
         }
 
-        private static int GetRandomPossiblePublicKeyExponent(List<int> possiblePublicKeyExponentList)
+        private static uint GetRandomPossiblePublicKeyExponent(List<uint> possiblePublicKeyExponentList)
         {
-            var random = new Random();
+            Random random = new Random();
 
-            var randomPossibleNumberIndex = random.Next(0, possiblePublicKeyExponentList.Count - 1);
-            var e = possiblePublicKeyExponentList[randomPossibleNumberIndex];
+            int randomPossibleNumberIndex = random.Next(0, possiblePublicKeyExponentList.Count - 1);
+            uint e = possiblePublicKeyExponentList[randomPossibleNumberIndex];
 
             return e;
         }
 
-        public static int CalculatePrivateKeyExponent(int e, int totient)
+        public static uint CalculatePrivateKeyExponent(uint e, uint totient)
         {
-            var d = 1;
+            uint d = 1;
 
             while ((d * e) % totient != 1)
             {

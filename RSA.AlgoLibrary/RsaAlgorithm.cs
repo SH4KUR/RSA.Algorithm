@@ -6,12 +6,12 @@ namespace RSA.AlgoLibrary
     {
         private const int MAX_PRIME_NUMBER = 30;
 
-        private int _p;         // prime number
-        private int _q;         // prime number
-        private int _n;         // modulus for the public key and the private keys
-        private int _totient;   // Euler's totient function
-        private int _e;         // public key exponent
-        private int _d;         // private key exponent
+        private uint _p;         // prime number
+        private uint _q;         // prime number
+        private uint _n;         // modulus for the public key and the private keys
+        private uint _totient;   // Euler's totient function
+        private uint _e;         // public key exponent
+        private uint _d;         // private key exponent
 
         public RsaAlgorithm()
         {
@@ -54,38 +54,38 @@ namespace RSA.AlgoLibrary
             _d = RsaMath.CalculatePrivateKeyExponent(_e, _totient);
         }
 
-        public int[] GetPrivateKeyDN()
+        public uint[] GetPrivateKeyDN()
         {
-            var privateKey = new[] { _d, _n };
+            uint[] privateKey = new[] { _d, _n };
             return privateKey;
         }
 
-        public int[] GetPublicKeyEN()
+        public uint[] GetPublicKeyEN()
         {
-            var publicKey = new[] { _e, _n };
+            uint[] publicKey = new[] { _e, _n };
             return publicKey;
         }
 
-        public long Encrypt(int number)     // TODO: FIX
+        public ulong Encrypt(ulong input)           // TODO: FIX
         {
-            long pow = 1;
-            for (var i = 0; i < _e; i++)
+            ulong pow = 1;
+            for (int i = 0; i < _e; i++)
             {
-                pow *= number;
+                pow *= input;
             }
-            var encrypt = pow % _n;
+            ulong encrypt = pow % _n;
 
             return encrypt;
         }
 
-        public long Decrypt(long encryptNumber)     // TODO: FIX
+        public ulong Decrypt(ulong encryptNumber)     // TODO: FIX
         {
-            long pow = 1;
-            for (var i = 0; i < _d; i++)
+            ulong pow = 1;
+            for (int i = 0; i < _d; i++)
             {
                 pow *= encryptNumber;
             }
-            var decrypt = pow % _n;
+            ulong decrypt = pow % _n;
 
             return decrypt;
         }
