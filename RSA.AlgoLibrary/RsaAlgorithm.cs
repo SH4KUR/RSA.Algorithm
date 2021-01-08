@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Numerics;
 
 namespace RSA.AlgoLibrary
 {
     public class RsaAlgorithm
     {
-        private const int MAX_PRIME_NUMBER = 30;
+        private const int MAX_PRIME_NUMBER = 100;
 
         private uint _p;         // prime number
         private uint _q;         // prime number
@@ -66,27 +67,15 @@ namespace RSA.AlgoLibrary
             return publicKey;
         }
 
-        public ulong Encrypt(ulong input)           // TODO: FIX
+        public ulong EncryptMessage(ulong input)
         {
-            ulong pow = 1;
-            for (int i = 0; i < _e; i++)
-            {
-                pow *= input;
-            }
-            ulong encrypt = pow % _n;
-
+            ulong encrypt = RsaMath.CalculateEncryptDecryptMessage(input, _e, _n);
             return encrypt;
         }
 
-        public ulong Decrypt(ulong encryptNumber)     // TODO: FIX
+        public ulong DecryptMessage(ulong encryptInput)
         {
-            ulong pow = 1;
-            for (int i = 0; i < _d; i++)
-            {
-                pow *= encryptNumber;
-            }
-            ulong decrypt = pow % _n;
-
+            ulong decrypt = RsaMath.CalculateEncryptDecryptMessage(encryptInput, _d, _n);
             return decrypt;
         }
     }

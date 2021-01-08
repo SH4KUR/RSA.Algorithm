@@ -17,16 +17,14 @@ namespace ConsoleApp
             uint N = publicKey[1];
 
             Console.WriteLine($"\n {rsa.GetArgumentsTempFunc()}");
-            Console.WriteLine($" Private key: {privateKey[0]}, {privateKey[1]}");
-            Console.WriteLine($" Public key: {publicKey[0]}, {publicKey[1]}");
             Console.WriteLine($" Private key: {D}, {N}");
             Console.WriteLine($" Public key: {E}, {N}");
 
             Console.Write("\n Enter for encrypt: ");
             int input = int.Parse(Console.ReadLine() ?? string.Empty);
 
-            ulong encrypt = rsa.Encrypt((ulong)input);
-            ulong decrypt = rsa.Decrypt(encrypt);
+            ulong encrypt = rsa.EncryptMessage((ulong)input);
+            ulong decrypt = rsa.DecryptMessage(encrypt);
 
             Console.WriteLine($"\n Encrypt: {encrypt}");
             Console.WriteLine($" Decrypt: {decrypt}");

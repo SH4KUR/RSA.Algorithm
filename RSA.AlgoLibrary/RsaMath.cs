@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace RSA.AlgoLibrary
@@ -100,6 +101,18 @@ namespace RSA.AlgoLibrary
             }
 
             return d;
+        }
+
+        public static ulong CalculateEncryptDecryptMessage(ulong inputMessage, uint keyExponent, uint modulus)
+        {
+            BigInteger pow = 1;
+            for (int i = 0; i < keyExponent; i++)
+            {
+                pow *= inputMessage;
+            }
+            ulong decrypt = (ulong)(pow % modulus);
+
+            return decrypt;
         }
     }
 }
