@@ -12,17 +12,17 @@ namespace ConsoleApp
             var privateKey = rsa.GetPrivateKeyDN();
 
             Console.WriteLine($"\n {rsa.GetArgumentsTempFunc()}");
-            Console.WriteLine($" private key: {privateKey[0]}, {privateKey[1]}");
-            Console.WriteLine($" public key: {publicKey[0]}, {publicKey[1]}");
+            Console.WriteLine($" Private key: {privateKey[0]}, {privateKey[1]}");
+            Console.WriteLine($" Public key: {publicKey[0]}, {publicKey[1]}");
 
-            Console.Write("Hash number: ");
-            var number = int.Parse(Console.ReadLine() ?? string.Empty);
+            Console.Write("\n Enter for encrypt: ");
+            var input = int.Parse(Console.ReadLine() ?? string.Empty);
 
-            var encrypt = rsa.Encrypt(number);
+            var encrypt = rsa.Encrypt(input);
             var decrypt = rsa.Decrypt(encrypt);
 
-            Console.WriteLine($"encrypt: {encrypt}");
-            Console.WriteLine($"decrypt: {decrypt}");
+            Console.WriteLine($"\n Encrypt: {encrypt}");
+            Console.WriteLine($" Decrypt: {decrypt}");
 
             Console.Write("\n Press <ENTER>: ");
             Console.ReadLine();
