@@ -122,7 +122,7 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Encrypt message
+        /// Encrypt <c>int</c> message
         /// </summary>
         /// <param name="message">Message</param>
         /// <returns>Encrypted message</returns>
@@ -133,7 +133,7 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Decrypt message
+        /// Decrypt <c>int</c> message
         /// </summary>
         /// <param name="encryptedMessage">Encrypted message</param>
         /// <returns>Decrypted message</returns>
