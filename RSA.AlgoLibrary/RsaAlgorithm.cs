@@ -1,8 +1,10 @@
-﻿namespace RSA.AlgoLibrary
+﻿using System;
+
+namespace RSA.AlgoLibrary
 {
     public class RsaAlgorithm
     {
-        private const int MAX_PRIME_NUMBER = 100;
+        private const int MAX_PRIME_NUMBER = 30;
 
         private int _p;         // prime number
         private int _q;         // prime number
@@ -54,7 +56,7 @@
 
         public int[] GetPrivateKeyDN()
         {
-            var privateKey = new[] {_d, _n};
+            var privateKey = new[] { _d, _n };
             return privateKey;
         }
 
@@ -62,6 +64,30 @@
         {
             var publicKey = new[] { _e, _n };
             return publicKey;
+        }
+
+        public long Encrypt(int number)     // TODO: FIX
+        {
+            long pow = 1;
+            for (var i = 0; i < _e; i++)
+            {
+                pow *= number;
+            }
+            var encrypt = pow % _n;
+
+            return encrypt;
+        }
+
+        public long Decrypt(long encryptNumber)     // TODO: FIX
+        {
+            long pow = 1;
+            for (var i = 0; i < _d; i++)
+            {
+                pow *= encryptNumber;
+            }
+            var decrypt = pow % _n;
+
+            return decrypt;
         }
     }
 }
