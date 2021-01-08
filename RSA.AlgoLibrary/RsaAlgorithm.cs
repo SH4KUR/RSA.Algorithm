@@ -5,77 +5,141 @@ namespace RSA.AlgoLibrary
 {
     public class RsaAlgorithm
     {
-        private const int MAX_PRIME_NUMBER = 100;
+        /// <summary>
+        /// Maximum value for generated primes
+        /// </summary>
+        private const int MAX_PRIMES_VALUE = 100;
 
-        private uint _p;         // prime number
-        private uint _q;         // prime number
-        private uint _n;         // modulus for the public key and the private keys
-        private uint _totient;   // Euler's totient function
-        private uint _e;         // public key exponent
-        private uint _d;         // private key exponent
+        /// <summary>
+        /// Minimum value for generated primes
+        /// </summary>
+        private const int MIN_PRIMES_VALUE = 50;
+        
 
+        /// <summary>
+        /// Modulus for the Public and the Private keys
+        /// </summary>
+        public int N { get; private set; }
+
+        /// <summary>
+        /// Public key exponent
+        /// </summary>
+        public int E { get; private set; }
+
+        /// <summary>
+        /// Private key exponent
+        /// </summary>
+        public int D { get; private set; }
+
+        
+        /// <summary>
+        /// Random primes
+        /// </summary>
+        private int _p;
+
+        /// <summary>
+        /// Random primes
+        /// </summary>
+        private int _q;
+
+        /// <summary>
+        /// Euler's totient function value
+        /// </summary>
+        private int _totient;
+
+        
         public RsaAlgorithm()
         {
             GeneratePQ();
-            SetN();
+            CalculateN();
             CalculateTotient();
             ChooseE();
             CalculateD();
         }
-
-        // TODO: Remove function
-        public string GetArgumentsTempFunc() => $"p: {_p}, q: {_q}, n: {_n}, totient: {_totient}, e: {_e}, d: {_d}";
-
+        
+        /// <summary>
+        /// Generate random primes: P and Q
+        /// </summary>
         private void GeneratePQ()
         {
             do
             {
-                _p = RsaMath.GeneratePrimeNumber(MAX_PRIME_NUMBER);
-                _q = RsaMath.GeneratePrimeNumber(MAX_PRIME_NUMBER);
+                _p = RsaMath.GeneratePrimeNumber(MIN_PRIMES_VALUE, MAX_PRIMES_VALUE);
+                _q = RsaMath.GeneratePrimeNumber(MIN_PRIMES_VALUE, MAX_PRIMES_VALUE);
             } while (_p == _q);
         }
 
-        private void SetN()
+        /// <summary>
+        /// Calculate modulus for the Public and the Private keys
+        /// </summary>
+        private void CalculateN()
         {
-            _n = _p * _q;
+            N = RsaMath.CalculateModulusForKeys(_p, _q);
         }
 
+        /// <summary>
+        /// Calculate Euler's totient function
+        /// </summary>
         private void CalculateTotient()
         {
             _totient = RsaMath.CalculateEulersTotientFunction(_p, _q);
         }
 
+        /// <summary>
+        /// Choose Public key exponent
+        /// </summary>
         private void ChooseE()
         {
-            _e = RsaMath.ChoosePublicKeyExponent(_totient);
+            E = RsaMath.ChoosePublicKeyExponent(_totient);
         }
 
+        /// <summary>
+        /// Calculate Private key exponent
+        /// </summary>
         private void CalculateD()
         {
-            _d = RsaMath.CalculatePrivateKeyExponent(_e, _totient);
+            D = RsaMath.CalculatePrivateKeyExponent(E, _totient);
         }
 
-        public uint[] GetPrivateKeyDN()
+        /// <summary>
+        /// Get Private RSA Key
+        /// </summary>
+        /// <returns>RsaPrivateKey Struct</returns>
+        public RsaPrivateKey GetPrivateKeyDN()
         {
-            uint[] privateKey = new[] { _d, _n };
+            RsaPrivateKey privateKey = new RsaPrivateKey(D, N);
             return privateKey;
         }
 
-        public uint[] GetPublicKeyEN()
+        /// <summary>
+        /// Get Public RSA Key
+        /// </summary>
+        /// <returns>RsaPublicKey Struct</returns>
+        public RsaPublicKey GetPublicKeyEN()
         {
-            uint[] publicKey = new[] { _e, _n };
+            RsaPublicKey publicKey = new RsaPublicKey(E, N);
             return publicKey;
         }
 
-        public ulong EncryptMessage(ulong input)
+        /// <summary>
+        /// Encrypt message
+        /// </summary>
+        /// <param name="message">Message</param>
+        /// <returns>Encrypted message</returns>
+        public int EncryptMessage(int message)
         {
-            ulong encrypt = RsaMath.CalculateEncryptDecryptMessage(input, _e, _n);
+            int encrypt = RsaMath.CalculateEncryptDecryptMessage(message, E, N);
             return encrypt;
         }
 
-        public ulong DecryptMessage(ulong encryptInput)
+        /// <summary>
+        /// Decrypt message
+        /// </summary>
+        /// <param name="encryptedMessage">Encrypted message</param>
+        /// <returns>Decrypted message</returns>
+        public int DecryptMessage(int encryptedMessage)
         {
-            ulong decrypt = RsaMath.CalculateEncryptDecryptMessage(encryptInput, _d, _n);
+            int decrypt = RsaMath.CalculateEncryptDecryptMessage(encryptedMessage, D, N);
             return decrypt;
         }
     }

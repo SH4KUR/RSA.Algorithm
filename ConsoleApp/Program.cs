@@ -9,22 +9,17 @@ namespace ConsoleApp
         {
             RsaAlgorithm rsa = new RsaAlgorithm();
             
-            uint[] publicKey = rsa.GetPublicKeyEN();
-            uint[] privateKey = rsa.GetPrivateKeyDN();
+            RsaPublicKey publicKey = rsa.GetPublicKeyEN();
+            RsaPrivateKey privateKey = rsa.GetPrivateKeyDN();
 
-            uint E = publicKey[0];
-            uint D = privateKey[0];
-            uint N = publicKey[1];
+            Console.WriteLine($" Private key: {privateKey.D}, {privateKey.N}");
+            Console.WriteLine($" Public key: {publicKey.E}, {publicKey.N}");
 
-            Console.WriteLine($"\n {rsa.GetArgumentsTempFunc()}");
-            Console.WriteLine($" Private key: {D}, {N}");
-            Console.WriteLine($" Public key: {E}, {N}");
-
-            Console.Write("\n Enter for encrypt: ");
+            Console.Write("\n Enter for encrypt/decrypt: ");
             int input = int.Parse(Console.ReadLine() ?? string.Empty);
 
-            ulong encrypt = rsa.EncryptMessage((ulong)input);
-            ulong decrypt = rsa.DecryptMessage(encrypt);
+            int encrypt = rsa.EncryptMessage(input);
+            int decrypt = rsa.DecryptMessage(encrypt);
 
             Console.WriteLine($"\n Encrypt: {encrypt}");
             Console.WriteLine($" Decrypt: {decrypt}");

@@ -7,25 +7,36 @@ using System.Text;
 namespace RSA.AlgoLibrary
 {
     public static class RsaMath
-    {   
-        public static uint GeneratePrimeNumber(int maxPrimeNumber)
+    {
+        /// <summary>
+        /// Generate random prime number from minimum to maximum values
+        /// </summary>
+        /// <param name="minPrimeNumber">Minimum value for generated prime number</param>
+        /// <param name="maxPrimeNumber">Maximum value for generated prime number</param>
+        /// <returns>Generated prime number</returns>
+        public static int GeneratePrimeNumber(int minPrimeNumber, int maxPrimeNumber)
         {
             Random random = new Random();
-            uint number;
+            int number;
 
             do
             {
-                number = (uint) random.Next(2, maxPrimeNumber);
+                number = random.Next(minPrimeNumber, maxPrimeNumber);
             } while (!IsPrimeNumber(number));
 
             return number;
         }
 
-        private static bool IsPrimeNumber(uint number)
+        /// <summary>
+        /// Checks if the number is prime
+        /// </summary>
+        /// <param name="number">Checked value</param>
+        /// <returns>Return <c>true</c> if the number is prime</returns>
+        private static bool IsPrimeNumber(int number)
         {
             bool result = true;
 
-            for (uint i = 2; i < number; i++)
+            for (int i = 2; i < number; i++)
             {
                 if (number % i == 0)
                 {
@@ -36,26 +47,44 @@ namespace RSA.AlgoLibrary
             return result;
         }
 
-        public static uint CalculateEulersTotientFunction(uint p, uint q)
+        /// <summary>
+        /// Calculate modulus for the keys by function: <c>n = p * q</c>
+        /// </summary>
+        /// <param name="p">First random prime number</param>
+        /// <param name="q">Second random prime number</param>
+        /// <returns>Calculated modulus for the Private and Public keys</returns>
+        public static int CalculateModulusForKeys(int p, int q)
         {
-            uint totient = (p - 1) * (q - 1);
+            var n = p * q;
+            return n;
+        }
+        
+        /// <summary>
+        /// Calculate Euler's totient by function: <c>f(n) = (p - 1) * (q - 1)</c>
+        /// </summary>
+        /// <param name="p">First random prime number</param>
+        /// <param name="q">Second random prime number</param>
+        /// <returns>Euler's totient function value</returns>
+        public static int CalculateEulersTotientFunction(int p, int q)
+        {
+            int totient = (p - 1) * (q - 1);
             return totient;
         }
 
-        public static uint ChoosePublicKeyExponent(uint totient)
+        public static int ChoosePublicKeyExponent(int totient)
         {
-            List<uint> possiblePublicKeyExponentList = GetAllPossiblePublicKeyExponentList(totient);
-            uint e = GetRandomPossiblePublicKeyExponent(possiblePublicKeyExponentList);
+            List<int> possiblePublicKeyExponentList = GetAllPossiblePublicKeyExponentList(totient);
+            int e = GetRandomPossiblePublicKeyExponent(possiblePublicKeyExponentList);
 
             return e;
         }
 
-        private static List<uint> GetAllPossiblePublicKeyExponentList(uint totient)
+        private static List<int> GetAllPossiblePublicKeyExponentList(int totient)
         {
-            List<uint> divisorsOfTotientList = GetAllDivisorsList(totient);
-            List<uint> possiblePublicKeyExponentList = new List<uint>();
+            List<int> divisorsOfTotientList = GetAllDivisorsList(totient);
+            List<int> possiblePublicKeyExponentList = new List<int>();
 
-            for (uint i = 2; i < totient; i++)
+            for (int i = 2; i < totient; i++)
             {
                 if (IsPrimeNumber(i) && !divisorsOfTotientList.Contains(i))
                 {
@@ -66,11 +95,11 @@ namespace RSA.AlgoLibrary
             return possiblePublicKeyExponentList;
         }
 
-        private static List<uint> GetAllDivisorsList(uint number)
+        private static List<int> GetAllDivisorsList(int number)
         {
-            List<uint> divisorsList = new List<uint>();
+            List<int> divisorsList = new List<int>();
 
-            for (uint i = 2; i < number; i++)
+            for (int i = 2; i < number; i++)
             {
                 if (number % i == 0)
                 {
@@ -81,19 +110,19 @@ namespace RSA.AlgoLibrary
             return divisorsList;
         }
 
-        private static uint GetRandomPossiblePublicKeyExponent(List<uint> possiblePublicKeyExponentList)
+        private static int GetRandomPossiblePublicKeyExponent(List<int> possiblePublicKeyExponentList)
         {
             Random random = new Random();
 
             int randomPossibleNumberIndex = random.Next(0, possiblePublicKeyExponentList.Count - 1);
-            uint e = possiblePublicKeyExponentList[randomPossibleNumberIndex];
+            int e = possiblePublicKeyExponentList[randomPossibleNumberIndex];
 
             return e;
         }
 
-        public static uint CalculatePrivateKeyExponent(uint e, uint totient)
+        public static int CalculatePrivateKeyExponent(int e, int totient)
         {
-            uint d = 1;
+            int d = 1;
 
             while ((d * e) % totient != 1)
             {
@@ -103,16 +132,16 @@ namespace RSA.AlgoLibrary
             return d;
         }
 
-        public static ulong CalculateEncryptDecryptMessage(ulong inputMessage, uint keyExponent, uint modulus)
+        public static int CalculateEncryptDecryptMessage(int inputMessage, int keyExponent, int modulus)
         {
             BigInteger pow = 1;
             for (int i = 0; i < keyExponent; i++)
             {
                 pow *= inputMessage;
             }
-            ulong decrypt = (ulong)(pow % modulus);
+            int outputMessage = (int)(pow % modulus);
 
-            return decrypt;
+            return outputMessage;
         }
     }
 }
