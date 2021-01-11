@@ -51,9 +51,9 @@ namespace RSA.AlgoLibrary
         /// Calculate modulus for the keys
         /// </summary>
         /// <remarks>Function: n = p * q</remarks>
-        /// <param name="p">First random prime number</param>
-        /// <param name="q">Second random prime number</param>
-        /// <returns>Calculated modulus for the private and public keys</returns>
+        /// <param name="p">First random prime number (P)</param>
+        /// <param name="q">Second random prime number (Q)</param>
+        /// <returns>Calculated modulus for the private and public keys (N)</returns>
         public static int CalculateModulusForKeys(int p, int q)
         {
             var n = p * q;
@@ -64,9 +64,9 @@ namespace RSA.AlgoLibrary
         /// Calculate Euler's totient
         /// </summary>
         /// <remarks>Function: f(n) = (p - 1) * (q - 1)</remarks>
-        /// <param name="p">First random prime number</param>
-        /// <param name="q">Second random prime number</param>
-        /// <returns>Euler's totient function value</returns>
+        /// <param name="p">First random prime number (P)</param>
+        /// <param name="q">Second random prime number (Q)</param>
+        /// <returns>Euler's totient function value (F(N))</returns>
         public static int CalculateEulersTotientFunction(int p, int q)
         {
             int totient = (p - 1) * (q - 1);
@@ -77,8 +77,8 @@ namespace RSA.AlgoLibrary
         /// Choose a public key exponent
         /// </summary>
         /// <remarks>Conditions: (1) E is greater than 1 and less then f(n); (2) E is co-prime to f(n)</remarks>
-        /// <param name="totient">Euler's totient function value</param>
-        /// <returns>Public key exponent</returns>
+        /// <param name="totient">Euler's totient function value (F(N))</param>
+        /// <returns>Public key exponent (E)</returns>
         public static int ChoosePublicKeyExponent(int totient)
         {
             List<int> possiblePublicKeyExponentList = GetAllPossiblePublicKeyExponentList(totient);
@@ -132,9 +132,9 @@ namespace RSA.AlgoLibrary
         /// Calculate private key exponent to satisfy the congruence relation:
         /// </summary>
         /// <remarks>(d * e) % f(n) = 1</remarks>
-        /// <param name="e">Public key exponent</param>
-        /// <param name="totient">Euler's totient function value</param>
-        /// <returns>Private key exponent</returns>
+        /// <param name="e">Public key exponent (E)</param>
+        /// <param name="totient">Euler's totient function value (F(N))</param>
+        /// <returns>Private key exponent (D)</returns>
         public static int CalculatePrivateKeyExponent(int e, int totient)
         {
             int d = 1;
@@ -150,11 +150,11 @@ namespace RSA.AlgoLibrary
         /// <summary>
         /// Encrypt <c>int</c> message by public key
         /// </summary>
-        /// <remarks>Encrypt: m^e % n</remarks>
-        /// <param name="inputMessage">M - <c>int</c> message</param>
+        /// <remarks>Encrypt: c = m^e % n</remarks>
+        /// <param name="inputMessage">Input <c>int</c> message (M)</param>
         /// <param name="publicKeyExponent">Public key exponent (E)</param>
-        /// <param name="publicKeyModulus">Public key modulus</param>
-        /// <returns>Encrypted <c>int</c> message</returns>
+        /// <param name="publicKeyModulus">Public key modulus (N)</param>
+        /// <returns>Encrypted <c>int</c> message (C)</returns>
         public static int EncryptMessage(int inputMessage, int publicKeyExponent, int publicKeyModulus)
         {
             int encryptedMessage = CalculateEncryptDecryptMessage(inputMessage, publicKeyExponent, publicKeyModulus);
@@ -164,11 +164,11 @@ namespace RSA.AlgoLibrary
         /// <summary>
         /// Decrypt <c>int</c> message by private key
         /// </summary>
-        /// <remarks>Decrypt: c^d % n</remarks>
-        /// <param name="inputMessage">C - encrypted <c>int</c> message</param>
-        /// <param name="privateKeyExponent">Private key exponent (E)</param>
-        /// <param name="privateKeyModulus">Private key modulus</param>
-        /// <returns>Decrypted <c>int</c> message</returns>
+        /// <remarks>Decrypt: m = c^d % n</remarks>
+        /// <param name="inputMessage">Encrypted <c>int</c> message (C)</param>
+        /// <param name="privateKeyExponent">Private key exponent (D)</param>
+        /// <param name="privateKeyModulus">Private key modulus (N)</param>
+        /// <returns>Decrypted <c>int</c> message (M)</returns>
         public static int DecryptMessage(int inputMessage, int privateKeyExponent, int privateKeyModulus)
         {
             int decryptedMessage = CalculateEncryptDecryptMessage(inputMessage, privateKeyExponent, privateKeyModulus);
