@@ -124,7 +124,7 @@ namespace RSA.AlgoLibrary
         /// <summary>
         /// Encrypt <c>int</c> message
         /// </summary>
-        /// <param name="message">Message</param>
+        /// <param name="message">Input message</param>
         /// <returns>Encrypted message</returns>
         public int EncryptMessage(int message)
         {
