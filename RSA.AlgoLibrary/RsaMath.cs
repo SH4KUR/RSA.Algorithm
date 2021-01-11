@@ -53,7 +53,7 @@ namespace RSA.AlgoLibrary
         /// <remarks>Function: n = p * q</remarks>
         /// <param name="p">First random prime number</param>
         /// <param name="q">Second random prime number</param>
-        /// <returns>Calculated modulus for the Private and Public keys</returns>
+        /// <returns>Calculated modulus for the private and public keys</returns>
         public static int CalculateModulusForKeys(int p, int q)
         {
             var n = p * q;
@@ -74,7 +74,7 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Choose a Public key exponent
+        /// Choose a public key exponent
         /// </summary>
         /// <remarks>Conditions: (1) E is greater than 1 and less then f(n); (2) E is co-prime to f(n)</remarks>
         /// <param name="totient">Euler's totient function value</param>
@@ -129,7 +129,7 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Calculate Private key exponent to satisfy the congruence relation
+        /// Calculate private key exponent to satisfy the congruence relation:
         /// </summary>
         /// <remarks>(d * e) % f(n) = 1</remarks>
         /// <param name="e">Public key exponent</param>
@@ -148,17 +148,47 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Encrypt or Decrypt <c>int</c> message by Private/Public key
+        /// Encrypt <c>int</c> message by public key
         /// </summary>
-        /// <remarks>Encrypt: m^e % n; Decrypt: c^d % n</remarks>
-        /// <param name="inputMessage"><c>Int</c> Message</param>
-        /// <param name="keyExponent">Key Exponent (E or D)</param>
-        /// <param name="modulus">Modulus for the key</param>
-        /// <returns>Encrypted or Decrypted <c>int</c> message</returns>
-        public static int CalculateEncryptDecryptMessage(int inputMessage, int keyExponent, int modulus)
+        /// <remarks>Encrypt: m^e % n</remarks>
+        /// <param name="inputMessage">M - <c>int</c> message</param>
+        /// <param name="publicKeyExponent">Public key exponent (E)</param>
+        /// <param name="publicKeyModulus">Public key modulus</param>
+        /// <returns>Encrypted <c>int</c> message</returns>
+        public static int EncryptMessage(int inputMessage, int publicKeyExponent, int publicKeyModulus)
         {
-            BigInteger pow = BigInteger.Pow(inputMessage, keyExponent);
-            int outputMessage = (int)(pow % modulus);
+            int encryptedMessage = CalculateEncryptDecryptMessage(inputMessage, publicKeyExponent, publicKeyModulus);
+            return encryptedMessage;
+        }
+
+        /// <summary>
+        /// Decrypt <c>int</c> message by private key
+        /// </summary>
+        /// <remarks>Decrypt: c^d % n</remarks>
+        /// <param name="inputMessage">C - encrypted <c>int</c> message</param>
+        /// <param name="privateKeyExponent">Private key exponent (E)</param>
+        /// <param name="privateKeyModulus">Private key modulus</param>
+        /// <returns>Decrypted <c>int</c> message</returns>
+        public static int DecryptMessage(int inputMessage, int privateKeyExponent, int privateKeyModulus)
+        {
+            int decryptedMessage = CalculateEncryptDecryptMessage(inputMessage, privateKeyExponent, privateKeyModulus);
+            return decryptedMessage;
+        }
+
+        private static int CalculateEncryptDecryptMessage(int inputMessage, int keyExponent, int modulus)
+        {
+            // More memory-intensive way
+
+            // BigInteger pow = BigInteger.Pow(inputMessage, keyExponent);
+            // int outputMessage = (int)(pow % modulus);
+
+            int outputMessage = 1;
+
+            for (int i = 0; i < keyExponent; i++)
+            {
+                outputMessage *= inputMessage;
+                outputMessage %= modulus;
+            }
 
             return outputMessage;
         }
