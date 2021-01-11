@@ -2,7 +2,7 @@
 
 [![Actions Status](https://github.com/SH4KUR/RSA.Algorithm/workflows/.NET/badge.svg?branch=master)](https://github.com/SH4KUR/RSA.Algorithm/actions)
 
-Basic RSA algorithm implementation for integer values.
+- Basic RSA algorithm implementation for integer values.
 
 #### Links:
 
