@@ -8,12 +8,12 @@ namespace RSA.AlgoLibrary
         /// <summary>
         /// Maximum value for generated primes
         /// </summary>
-        private const int MAX_PRIMES_VALUE = 100;
+        private const int MAX_PRIMES_VALUE = 200;
 
         /// <summary>
         /// Minimum value for generated primes
         /// </summary>
-        private const int MIN_PRIMES_VALUE = 50;
+        private const int MIN_PRIMES_VALUE = 100;
         
 
         /// <summary>
@@ -33,12 +33,12 @@ namespace RSA.AlgoLibrary
 
         
         /// <summary>
-        /// Random primes
+        /// First random prime number
         /// </summary>
         private int _p;
 
         /// <summary>
-        /// Random primes
+        /// Second random prime number
         /// </summary>
         private int _q;
 
@@ -70,7 +70,7 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Calculate modulus for the Public and the Private keys
+        /// Calculate modulus for public and private keys
         /// </summary>
         private void CalculateN()
         {
@@ -86,7 +86,7 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Choose Public key exponent
+        /// Choose public key exponent
         /// </summary>
         private void ChooseE()
         {
@@ -94,7 +94,7 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Calculate Private key exponent
+        /// Calculate private key exponent
         /// </summary>
         private void CalculateD()
         {
@@ -102,7 +102,7 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Get Private RSA Key
+        /// Get private RSA Key
         /// </summary>
         /// <returns>RsaPrivateKey Struct</returns>
         public RsaPrivateKey GetPrivateKeyDN()
@@ -112,7 +112,7 @@ namespace RSA.AlgoLibrary
         }
 
         /// <summary>
-        /// Get Public RSA Key
+        /// Get public RSA Key
         /// </summary>
         /// <returns>RsaPublicKey Struct</returns>
         public RsaPublicKey GetPublicKeyEN()
@@ -128,8 +128,8 @@ namespace RSA.AlgoLibrary
         /// <returns>Encrypted message</returns>
         public int EncryptMessage(int message)
         {
-            int encrypt = RsaMath.CalculateEncryptDecryptMessage(message, E, N);
-            return encrypt;
+            int encrypted = RsaMath.EncryptMessage(message, E, N);
+            return encrypted;
         }
 
         /// <summary>
@@ -139,8 +139,8 @@ namespace RSA.AlgoLibrary
         /// <returns>Decrypted message</returns>
         public int DecryptMessage(int encryptedMessage)
         {
-            int decrypt = RsaMath.CalculateEncryptDecryptMessage(encryptedMessage, D, N);
-            return decrypt;
+            int decrypted = RsaMath.DecryptMessage(encryptedMessage, D, N);
+            return decrypted;
         }
     }
 }
